@@ -202,8 +202,6 @@ function clearLines() {
 		return true;
 	}
 	function deleteLine(j) {
-		console.log('Deleting line', j);
-		console.log(grid);
 		for (var i = 0; i < 10; ++i) {
 			spriteGrid[i][j].kill();
 			for (var k = j; k > 0; --k) {
@@ -216,8 +214,6 @@ function clearLines() {
 			grid[i + 1][1] = false;
 			spriteGrid[i][0] = undefined;
 		}
-		console.log('Deleted line', j);
-		console.log(grid);
 	}
 	var j = 20;
 	while (j) {
