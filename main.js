@@ -105,10 +105,10 @@ function create() {
 	for (var i = 0; i < 12; ++i) {
 		grid[i] = new Array(22);
 		for (var j = 0; j < 22; ++j)
-			grid[i][j] = i == 0 || j == 0 || i == 11 || j == 21;
+			grid[i][j] = i == 0 || i == 11 || j == 21;
 	}
 	// Initialise sprite grid
-	spriteGrid = new Array(12);
+	spriteGrid = new Array(10);
 	for (var i = 0; i < 10; ++i)
 		spriteGrid[i] = new Array(20);
 	// Initialise tetris sprites
@@ -149,6 +149,7 @@ function update() {
 }
 
 function tetrisStartDrop() {
+	clearLines();
 	var type = Math.floor(Math.random() * BLOCKS.length);
 	var shape = new Shape(BLOCKS[type].shape);
 	var spriteSource = BLOCKS[type].sprite;
@@ -191,4 +192,38 @@ function tetrisSlam() {
 	while (activeBlock.fall()) ;
 	tetrisStartDrop();
 	return true;
+}
+
+function clearLines() {
+	function lineFull(j) {
+		for (var i = 0; i < 10; ++i)
+			if (!grid[i + 1][j + 1])
+				return false;
+		return true;
+	}
+	function deleteLine(j) {
+		console.log('Deleting line', j);
+		console.log(grid);
+		for (var i = 0; i < 10; ++i) {
+			spriteGrid[i][j].kill();
+			for (var k = j; k > 0; --k) {
+				grid[i + 1][k + 1] = grid[i + 1][k];
+				var sprite = spriteGrid[i][k - 1];
+				spriteGrid[i][k] = sprite;
+				if (grid[i + 1][k + 1])
+					sprite.y += 16;
+			}
+			grid[i + 1][1] = false;
+			spriteGrid[i][0] = undefined;
+		}
+		console.log('Deleted line', j);
+		console.log(grid);
+	}
+	var j = 20;
+	while (j) {
+		if (lineFull(j - 1))
+			deleteLine(j - 1);
+		else
+			--j;
+	}
 }
