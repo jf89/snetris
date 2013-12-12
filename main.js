@@ -1,22 +1,30 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
-var controls = {
+keymap = {
 	tetrisUp:       Phaser.Keyboard.E,
 	tetrisDown:     Phaser.Keyboard.D,
 	tetrisLeft:     Phaser.Keyboard.S,
 	tetrisRight:    Phaser.Keyboard.F,
 	tetrisRotLeft:  Phaser.Keyboard.W,
 	tetrisRotRight: Phaser.Keyboard.R,
+	tetrisSlam:     Phaser.Keyboard.SPACEBAR,
 
 	snakeUp:        Phaser.Keyboard.I,
 	snakeDown:      Phaser.Keyboard.K,
 	snakeLeft:      Phaser.Keyboard.J,
 	snakeRight:     Phaser.Keyboard.L,
 	snakeRotLeft:   Phaser.Keyboard.U,
-	snakeRotRight:  Phaser.Keyboard.O,
+	snakeRotRight:  Phaser.Keyboard.O
+};
 
-	tetrisSlam:     Phaser.Keyboard.SPACEBAR
-}
+var controls = [
+	new Control(500, 50, ['tetrisUp', 'tetrisRotRight'], tetrisRotateClockwise),
+	new Control(500, 50, ['tetrisRotLeft'],              tetrisRotateCounterClockwise),
+	new Control(500, 50, ['tetrisLeft'],                 tetrisMoveLeft),
+	new Control(500, 50, ['tetrisRight'],                tetrisMoveRight),
+	new Control(500, 50, ['tetrisDown'],                 tetrisMoveDown),
+	new Control(500, 50, ['tetrisSlam'],                 tetrisSlam)
+];
 
 var grid;
 var spriteGrid;
@@ -89,9 +97,9 @@ function preload() {
 }
 
 function create() {
-	// Initialise controls
-	for (var key in controls)
-		controls[key] = game.input.keyboard.addKey(controls[key]);
+	// Initialise keymap
+	for (var key in keymap)
+		keymap[key] = game.input.keyboard.addKey(keymap[key]);
 	// Initialise grid
 	grid = new Array(12);
 	for (var i = 0; i < 12; ++i) {
@@ -130,11 +138,14 @@ function create() {
 }
 
 function update() {
-	// Temp code for testing
+	// Regular interval stuff
 	if (game.time.now > nextDropTime) {
-		activeBlock.fall();
+		tetrisDoMove();
 		nextDropTime = game.time.now + 500;
 	}
+	// Poll input
+	for (var i = 0; i < controls.length; ++i)
+		controls[i].pollInput();
 }
 
 function tetrisStartDrop() {
@@ -148,4 +159,36 @@ function tetrisStartDrop() {
 	} else {
 		activeBlock = new ActiveBlock(grid, spriteGrid, spriteSource, x, y, shape);
 	}
+}
+
+function tetrisDoMove() {
+	if (!activeBlock.fall())
+		tetrisStartDrop();
+}
+
+function tetrisRotateClockwise() {
+	return activeBlock.rotateClockwise();
+}
+
+function tetrisRotateCounterClockwise() {
+	return activeBlock.rotateCounterClockwise();
+}
+
+function tetrisMoveLeft() {
+	return activeBlock.moveLeft();
+}
+
+function tetrisMoveRight() {
+	return activeBlock.moveRight();
+}
+
+function tetrisMoveDown() {
+	tetrisDoMove();
+	return true;
+}
+
+function tetrisSlam() {
+	while (activeBlock.fall()) ;
+	tetrisStartDrop();
+	return true;
 }
