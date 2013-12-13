@@ -23,7 +23,12 @@ var controls = [
 	new Control(500, 50, ['tetrisLeft'],                 tetrisMoveLeft),
 	new Control(500, 50, ['tetrisRight'],                tetrisMoveRight),
 	new Control(500, 50, ['tetrisDown'],                 tetrisMoveDown),
-	new Control(500, 50, ['tetrisSlam'],                 tetrisSlam)
+	new Control(500, 50, ['tetrisSlam'],                 tetrisSlam),
+
+	new Control(0,   0,  ['snakeUp'],                    snakeUp),
+	new Control(0,   0,  ['snakeLeft'],                  snakeLeft),
+	new Control(0,   0,  ['snakeDown'],                  snakeDown),
+	new Control(0,   0,  ['snakeRight'],                 snakeRight)
 ];
 
 var grid;
@@ -206,6 +211,27 @@ function tetrisSlam() {
 
 function snakeDoMove() {
 	snake.move();
+	return false;
+}
+
+function snakeUp() {
+	snake.faceUp();
+	return false;
+}
+
+function snakeLeft() {
+	snake.faceLeft();
+	return false;
+}
+
+function snakeDown() {
+	snake.faceDown();
+	return false;
+}
+
+function snakeRight() {
+	snake.faceRight();
+	return false;
 }
 
 function clearLines() {
