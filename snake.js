@@ -67,8 +67,6 @@ Snake.prototype.dropOne = function() {
 		newBody[i * 2]     = this._body[i * 2];
 		newBody[i * 2 + 1] = this._body[i * 2 + 1] + 1;
 	}
-	console.log(this._body.toString());
-	console.log(newBody.toString());
 	this._body = newBody;
 	this._y += 1;
 }
