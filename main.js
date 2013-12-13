@@ -120,7 +120,7 @@ function create() {
 	for (var i = 0; i < 12; ++i) {
 		grid[i] = new Array(22);
 		for (var j = 0; j < 22; ++j)
-			grid[i][j] = i == 0 || i == 11 || j == 21;
+			grid[i][j] = i == 0 || j == 0 || i == 11 || j == 21;
 	}
 	// Initialise sprite grid
 	spriteGrid = new Array(10);
