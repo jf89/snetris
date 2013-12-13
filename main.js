@@ -143,8 +143,8 @@ function create() {
 	tetrisStartDrop();
 	nextDropTime = game.time.now + 500;
 
-	snake = new Snake(grid, spriteGrid, SNAKE_SPRITES, 1, 20);
-	nextSnakeMove = game.time.now + 500;
+	snake = new Snake(grid, spriteGrid, SNAKE_SPRITES, 2, 20);
+	nextSnakeMove = game.time.now + 400;
 }
 
 function update() {
@@ -155,7 +155,7 @@ function update() {
 	}
 	if (game.time.now > nextSnakeMove) {
 		snakeDoMove();
-		nextSnakeMove = game.time.now + 500;
+		nextSnakeMove = game.time.now + 400;
 	}
 	// Poll input
 	for (var i = 0; i < controls.length; ++i)
@@ -257,8 +257,11 @@ function clearLines() {
 	}
 	var j = 20;
 	while (j) {
-		if (lineFull(j - 1))
+		if (lineFull(j - 1)) {
 			deleteLine(j - 1);
+			if (j - 1 > snake._y)
+				snake.dropOne();
+		}
 		else
 			--j;
 	}

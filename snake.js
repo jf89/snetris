@@ -5,12 +5,17 @@ function Snake(grid, spriteGrid, spriteSource, x, y) {
 	this._x = x;
 	this._y = y;
 	this._facing = 0;
-	this._body = [x, y];
+	this._body = [x, y, x - 1, y];
 
 	grid[x][y] = true;
 	var sprite = spriteSource.hn.getFirstExists(false);
 	sprite.reset(x * 16 - 16, y * 16 - 16);
 	spriteGrid[x - 1][y - 1] = sprite;
+
+	grid[x - 1][y] = true;
+	var sprite = spriteSource.hn.getFirstExists(false);
+	sprite.reset(x * 16 - 16, y * 16 - 16);
+	spriteGrid[x - 2][y - 1] = sprite;
 }
 
 Snake.prototype.move = function() {
@@ -54,4 +59,16 @@ Snake.prototype.faceLeft = function() {
 
 Snake.prototype.faceUp = function() {
 	this._facing = 3;
+}
+
+Snake.prototype.dropOne = function() {
+	var newBody = new Array(this._body.length);
+	for (var i = 0; i < this._body.length / 2; ++i) {
+		newBody[i * 2]     = this._body[i * 2];
+		newBody[i * 2 + 1] = this._body[i * 2 + 1] + 1;
+	}
+	console.log(this._body.toString());
+	console.log(newBody.toString());
+	this._body = newBody;
+	this._y += 1;
 }
