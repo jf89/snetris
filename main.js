@@ -1,4 +1,4 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(160, 320, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 keymap = {
 	tetrisUp:       Phaser.Keyboard.E,
@@ -32,14 +32,14 @@ var spriteGrid;
 // Tetris stuff
 var BLOCKS = [
 	{
-		sprite: "block_r.png",
+		sprite: 'block_r.png',
 		shape: [
 			[ 1, 1 ],
 			[ 1, 1 ]
 		]
 	},
 	{
-		sprite: "block_g.png",
+		sprite: 'block_g.png',
 		shape: [
 			[ 0, 1, 0 ],
 			[ 1, 1, 1 ],
@@ -47,7 +47,7 @@ var BLOCKS = [
 		]
 	},
 	{
-		sprite: "block_b.png",
+		sprite: 'block_b.png',
 		shape: [
 			[ 0, 0, 1 ],
 			[ 0, 1, 1 ],
@@ -55,7 +55,7 @@ var BLOCKS = [
 		]
 	},
 	{
-		sprite: "block_y.png",
+		sprite: 'block_y.png',
 		shape: [
 			[ 1, 0, 0 ],
 			[ 1, 1, 0 ],
@@ -63,7 +63,7 @@ var BLOCKS = [
 		]
 	},
 	{
-		sprite: "block_c.png",
+		sprite: 'block_c.png',
 		shape: [
 			[ 0, 1, 0 ],
 			[ 0, 1, 0 ],
@@ -71,7 +71,7 @@ var BLOCKS = [
 		]
 	},
 	{
-		sprite: "block_w.png",
+		sprite: 'block_w.png',
 		shape: [
 			[ 0, 1, 0 ],
 			[ 0, 1, 0 ],
@@ -79,7 +79,7 @@ var BLOCKS = [
 		]
 	},
 	{
-		sprite: "block_n.png",
+		sprite: 'block_n.png',
 		shape: [
 			[ 0, 1, 0, 0 ],
 			[ 0, 1, 0, 0 ],
@@ -88,9 +88,19 @@ var BLOCKS = [
 		]
 	}
 ];
+var SNAKE_SPRITES = {
+	hn: 'hn.png', he: 'he.png', hs: 'hs.png', hw: 'hw.png',
+	tn: 'tn.png', te: 'te.png', ts: 'ts.png', tw: 'tw.png',
+	ne: 'ne.png', ns: 'ns.png', nw: 'nw.png',
+	se: 'se.png', sw: 'sw.png',
+	ew: 'ew.png'
+};
 
 var activeBlock;
 var nextDropTime;
+
+var snake;
+var nextSnakeMove;
 
 function preload() {
 	game.load.atlas('snetris', 'snetris.png', 'snetris.json');
@@ -117,24 +127,19 @@ function create() {
 		spriteSource.createMultiple(200, 'snetris', BLOCKS[i].sprite);
 		BLOCKS[i].sprite = spriteSource;
 	}
-
-	// Draw grid
-//	var graphics = game.add.graphics(0, 0);
-//	graphics.beginFill(0x00ff00);
-//	graphics.lineStyle(1, 0x00ff00, 1);
-//	for (var i = 0; i < 11; ++i) {
-//		graphics.moveTo(16 + i * 16, 16);
-//		graphics.lineTo(16 + i * 16, 336);
-//	}
-//	for (var i = 0; i < 21; ++i) {
-//		graphics.moveTo(16, 16 + i * 16);
-//		graphics.lineTo(176, 16 + i * 16);
-//	}
-//	graphics.endFill();
+	// Initialise snake sprites
+	for (var key in SNAKE_SPRITES) {
+		var spriteSource = game.add.group();
+		spriteSource.createMultiple(200, 'snetris', SNAKE_SPRITES[key]);
+		SNAKE_SPRITES[key] = spriteSource;
+	}
 
 	// Start game
 	tetrisStartDrop();
 	nextDropTime = game.time.now + 500;
+
+	snake = new Snake(grid, spriteGrid, SNAKE_SPRITES, 1, 20);
+	nextSnakeMove = game.time.now + 500;
 }
 
 function update() {
@@ -142,6 +147,10 @@ function update() {
 	if (game.time.now > nextDropTime) {
 		tetrisDoMove();
 		nextDropTime = game.time.now + 500;
+	}
+	if (game.time.now > nextSnakeMove) {
+		snakeDoMove();
+		nextSnakeMove = game.time.now + 500;
 	}
 	// Poll input
 	for (var i = 0; i < controls.length; ++i)
@@ -159,6 +168,7 @@ function tetrisStartDrop() {
 		// TODO: Game over
 	} else {
 		activeBlock = new ActiveBlock(grid, spriteGrid, spriteSource, x, y, shape);
+		nextDropTime = game.time.now + 500;
 	}
 }
 
@@ -192,6 +202,10 @@ function tetrisSlam() {
 	while (activeBlock.fall()) ;
 	tetrisStartDrop();
 	return true;
+}
+
+function snakeDoMove() {
+	snake.move();
 }
 
 function clearLines() {
