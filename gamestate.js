@@ -51,7 +51,7 @@ GameState.prototype._tetrisStartDrop = function() {
 	if (shape.checkCollision(this._grid, x, y)) {
 		// TODO: Game over
 	} else
-		this._activeBlock = new ActiveBlock(this._grid, x, y, shape);
+		this._activeBlock = new ActiveBlock(this._grid, x, y, shape, BLOCKS[type].sprite);
 }
 
 GameState.prototype._tetrisDoMove = function() {
@@ -75,7 +75,7 @@ GameState.prototype._clearLines = function() {
 		for (var i = 0; i < 10; ++i) {
 			for (var k = j; k > 0; --k)
 				grid.setBlock(i, k, grid.blockAt(i, k - 1));
-			grid.setBlock(i, 0, new Block(false, false, 1));
+			grid.setBlock(i, 0, new Block(false, false, TILES.empty));
 		}
 	}
 
@@ -84,7 +84,7 @@ GameState.prototype._clearLines = function() {
 		if (lineFull(j - 1)) {
 			deleteLine(j - 1);
 			if (j - 1 > this._snake._y)
-				this._snake.dropOne();
+				this._snake.clearLine(j - 1);
 		}
 		else
 			--j;

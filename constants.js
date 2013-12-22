@@ -1,16 +1,27 @@
 var WIDTH = 10;
 var HEIGHT = 20;
 
+var TILES = {
+	empty:   0,
+	red:     1,
+	yellow:  2,
+	aqua:    3,
+	green:   4,
+	blue:    5,
+	white:   6,
+	magenta: 7
+};
+
 var BLOCKS = [
 	{
-		sprite: 'block_r.png',
+		sprite: TILES.yellow,
 		shape: [
 			[ 1, 1 ],
 			[ 1, 1 ]
 		]
 	},
 	{
-		sprite: 'block_g.png',
+		sprite: TILES.magenta,
 		shape: [
 			[ 0, 1, 0 ],
 			[ 1, 1, 1 ],
@@ -18,7 +29,7 @@ var BLOCKS = [
 		]
 	},
 	{
-		sprite: 'block_b.png',
+		sprite: TILES.red,
 		shape: [
 			[ 0, 0, 1 ],
 			[ 0, 1, 1 ],
@@ -26,7 +37,7 @@ var BLOCKS = [
 		]
 	},
 	{
-		sprite: 'block_y.png',
+		sprite: TILES.green,
 		shape: [
 			[ 1, 0, 0 ],
 			[ 1, 1, 0 ],
@@ -34,7 +45,7 @@ var BLOCKS = [
 		]
 	},
 	{
-		sprite: 'block_c.png',
+		sprite: TILES.blue,
 		shape: [
 			[ 0, 1, 0 ],
 			[ 0, 1, 0 ],
@@ -42,7 +53,7 @@ var BLOCKS = [
 		]
 	},
 	{
-		sprite: 'block_w.png',
+		sprite: TILES.white,
 		shape: [
 			[ 0, 1, 0 ],
 			[ 0, 1, 0 ],
@@ -50,7 +61,7 @@ var BLOCKS = [
 		]
 	},
 	{
-		sprite: 'block_n.png',
+		sprite: TILES.aqua,
 		shape: [
 			[ 0, 1, 0, 0 ],
 			[ 0, 1, 0, 0 ],
@@ -61,13 +72,9 @@ var BLOCKS = [
 ];
 
 var SNAKE_SPRITES = {
-	hn: 'hn.png', he: 'he.png', hs: 'hs.png', hw: 'hw.png',
-	tn: 'tn.png', te: 'te.png', ts: 'ts.png', tw: 'tw.png',
-	ne: 'ne.png', ns: 'ns.png', nw: 'nw.png',
-	se: 'se.png', sw: 'sw.png',
-	ew: 'ew.png'
-};
-
-var TILES = {
-	empty: 1
+	hn:  9, he: 10, hs: 11, hw:  8,
+	tn: 15, te: 14, ts: 13, tw: 12,
+	ne: 16, ns: 18, nw: 17,
+	se: 21, sw: 20,
+	ew: 19
 };

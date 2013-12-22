@@ -1,9 +1,9 @@
-function ActiveBlock(grid, x, y, shape) {
+function ActiveBlock(grid, x, y, shape, sprite) {
 	this._grid = grid;
 	this._x = x;
 	this._y = y;
 	this._shape = shape;
-	this._sprite = 2;
+	this._sprite = sprite;
 	this._addToGrid(false);
 }
 

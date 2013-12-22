@@ -48,7 +48,29 @@ Snake.prototype.faceUp = function() {
 	this._facing = 3;
 }
 
-Snake.prototype.dropOne = function() {
-	for (var i = 0; i < this._body.length; ++i)
-		this._body[i].y += 1;
+//Snake.prototype.dropOne = function() {
+//	for (var i = 0; i < this._body.length; ++i)
+//		this._body[i].y += 1;
+//}
+
+Snake.prototype.clearLine = function(j) {
+}
+
+Snake.prototype.drawSnake = function() {
+	if (this._body.length == 1) {
+		// TODO : this
+	} else {
+		// Draw head
+		//var prev = this._body[0];
+		//var next = this._body[1];
+		for (var i = 1; i < this._body.length - 1; ++i) {
+			var prev = this._body[i - 1];
+			var cur  = this._body[i];
+			var next = this._body[i + 1];
+			var dx1 = cur.x - prev.x;
+			var dy1 = cur.y - prev.y;
+			var dx2 = next.x - cur.x;
+			var dy2 = next.y - cur.y;
+		}
+	}
 }
