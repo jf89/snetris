@@ -37,7 +37,7 @@ Shape.prototype.rotateCounterClockwise = function() {
 Shape.prototype.checkCollision = function(grid, x, y) {
 	for (var i = 0; i < this.size; ++i)
 		for (var j = 0; j < this.size; ++j)
-			if (this.shape[i][j] && grid[x + i][y + j])
+			if (this.shape[i][j] && grid.blockAt(x + i, y + j).canCollide)
 				return true;
 	return false;
 }

@@ -7,7 +7,7 @@ function Control(repeatDelay, repeatInterval, controls, callback) {
 	this._doneOnce = false;
 }
 
-Control.prototype.pollInput = function() {
+Control.prototype.update = function() {
 	var keyDown = false;
 	for (var i = 0; i < this._controls.length; ++i)
 		keyDown |= keymap[this._controls[i]].isDown;
