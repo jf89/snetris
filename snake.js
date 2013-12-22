@@ -56,12 +56,20 @@ Snake.prototype.faceUp = function() {
 	this._facing = 3;
 }
 
-//Snake.prototype.dropOne = function() {
-//	for (var i = 0; i < this._body.length; ++i)
-//		this._body[i].y += 1;
-//}
-
 Snake.prototype.clearLine = function(j) {
+	var i = 0;
+	while (i < this._body.length && this._body[i].y != j) ++i;
+	if (i < this._body.length) {
+		var newBody = new Array(i);
+		for (var k = 0; k < i; ++k)
+			newBody[k] = this._body[k];
+		this._body = newBody;
+	}
+	for (var i = 0; i < this._body.length; ++i)
+		if (this._body[i].y < j)
+			this._body[i].y += 1;
+	this._x = this._body[0].x;
+	this._y = this._body[0].y;
 }
 
 Snake.prototype.drawSnake = function() {

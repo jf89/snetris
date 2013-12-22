@@ -83,8 +83,7 @@ GameState.prototype._clearLines = function() {
 	while (j) {
 		if (lineFull(j - 1)) {
 			deleteLine(j - 1);
-			if (j - 1 > this._snake._y)
-				this._snake.clearLine(j - 1);
+			this._snake.clearLine(j - 1);
 		}
 		else
 			--j;
