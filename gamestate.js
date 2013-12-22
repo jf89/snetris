@@ -20,10 +20,10 @@ GameState.prototype.init = function() {
 		new Control(500, 50, ['tetrisSlam'],
 			function() { while(state._tetrisDoMove()); return true; }),
 
-		//new TapControl(['snakeUp'],    0, snakeUp),
-		//new TapControl(['snakeLeft'],  0, snakeLeft),
-		//new TapControl(['snakeDown'],  0, snakeDown),
-		//new TapControl(['snakeRight'], 0, snakeRight)
+		new TapControl(['snakeUp'],    0, function() { state._snake.faceUp(); }),
+		new TapControl(['snakeLeft'],  0, function() { state._snake.faceLeft(); }),
+		new TapControl(['snakeDown'],  0, function() { state._snake.faceDown(); }),
+		new TapControl(['snakeRight'], 0, function() { state._snake.faceRight(); })
 	];
 
 	this._repeaters = {
@@ -83,8 +83,8 @@ GameState.prototype._clearLines = function() {
 	while (j) {
 		if (lineFull(j - 1)) {
 			deleteLine(j - 1);
-			if (j - 1 > snake._y)
-				snake.dropOne();
+			if (j - 1 > this._snake._y)
+				this._snake.dropOne();
 		}
 		else
 			--j;
