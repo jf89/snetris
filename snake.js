@@ -30,11 +30,11 @@ Snake.prototype.move = function() {
 	this._x += dx;
 	this._y += dy;
 
-	this._body.unshift({ x: this._x, y: this._y });
-	this._grid.setBlock(this._x, this._y, new Block(true, true, TILES.empty));
-
 	var tail = this._body.pop();
 	this._grid.setBlock(tail.x, tail.y, new Block(false, false, TILES.empty));
+
+	this._body.unshift({ x: this._x, y: this._y });
+	this._grid.setBlock(this._x, this._y, new Block(true, true, TILES.empty));
 
 	this.drawSnake();
 	return true;
