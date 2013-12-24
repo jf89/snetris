@@ -28,7 +28,7 @@ Grid.prototype.createTilemap = function(width, height) {
 
 Grid.prototype.destroy = function() {
 	this._tilemap.destroy();
-	this._tileset.destroy();
+	//this._tileset.destroy();
 	this._layer.destroy();
 }
 

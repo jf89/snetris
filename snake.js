@@ -1,80 +1,88 @@
-function Snake(grid, x, y) {
+function Snake(grid, body, facing) {
 	this._grid = grid;
-	this._x = x;
-	this._y = y;
-	this._facing = 0;
-	this._body = [
-		{ x: x,     y: y },
-		{ x: x - 1, y: y },
-		{ x: x - 2, y: y },
-		{ x: x - 3, y: y }
-	];
+	this._facing = facing;
+	this._nextFacing = facing;
+	this._body = body;
+	this._length = this._body.length;
 
 	for (var i = 0; i < this._body.length; ++i)
-		this._grid.setBlock(this._body[i].x, this._body[i].y, new Block(true, true, TILES.empty));
+		this._grid.setBlock(
+			this._body[i].x, this._body[i].y, new Block(true, true, TILES.empty)
+		);
 	this.drawSnake();
 }
 
 Snake.prototype.move = function() {
+	this._facing = this._nextFacing;
 	var dx = 0, dy = 0;
-	if      (this._facing == 0) dx = 1;
-	else if (this._facing == 1) dy = 1;
-	else if (this._facing == 2) dx = -1;
-	else                        dy = -1;
+	if      (this._facing == RIGHT) dx = 1;
+	else if (this._facing == DOWN)  dy = 1;
+	else if (this._facing == LEFT)  dx = -1;
+	else                            dy = -1;
 
-	if (this._grid.blockAt(this._x + dx, this._y + dy).canCollide) {
+	var head = { x: this._body[0].x, y: this._body[0].y };
+
+	if (this._grid.blockAt(head.x + dx, head.y + dy).canCollide) {
 		var tail = this._body[this._body.length - 1];
-		if (this._x + dx != tail.x || this._y + dy != tail.y)
-			return false;
+		if (head.x + dx != tail.x || head.y + dy != tail.y) {
+			state.gameOver();
+			return;
+		}
 	}
-	this._x += dx;
-	this._y += dy;
+	head.x += dx;
+	head.y += dy;
 
-	var tail = this._body.pop();
-	this._grid.setBlock(tail.x, tail.y, new Block(false, false, TILES.empty));
+	if (this._length <= this._body.length) {
+		var tail = this._body.pop();
+		this._grid.setBlock(tail.x, tail.y, new Block(false, false, TILES.empty));
+	}
 
-	this._body.unshift({ x: this._x, y: this._y });
-	this._grid.setBlock(this._x, this._y, new Block(true, true, TILES.empty));
+	this._body.unshift({ x: head.x, y: head.y });
+	this._grid.setBlock(head.x, head.y, new Block(true, true, TILES.empty));
 
 	this.drawSnake();
-	return true;
 }
 
 Snake.prototype.faceRight = function() {
-	this._facing = 0;
+	if (this._facing != LEFT)
+		this._nextFacing = RIGHT;
 }
 
 Snake.prototype.faceDown = function() {
-	this._facing = 1;
+	if (this._facing != UP)
+		this._nextFacing = DOWN;
 }
 
 Snake.prototype.faceLeft = function() {
-	this._facing = 2;
+	if (this._facing != RIGHT)
+		this._nextFacing = LEFT;
 }
 
 Snake.prototype.faceUp = function() {
-	this._facing = 3;
+	if (this._facing != DOWN)
+		this._nextFacing = UP;
 }
 
 Snake.prototype.clearLine = function(j) {
+	if (j == this._body[0].y)
+		state.gameOver();
 	var i = 0;
 	while (i < this._body.length && this._body[i].y != j) ++i;
 	if (i < this._body.length) {
 		var newBody = new Array(i);
 		for (var k = 0; k < i; ++k)
 			newBody[k] = this._body[k];
+		this._length -= this._body.length - newBody.length;
 		this._body = newBody;
 	}
 	for (var i = 0; i < this._body.length; ++i)
 		if (this._body[i].y < j)
 			this._body[i].y += 1;
-	this._x = this._body[0].x;
-	this._y = this._body[0].y;
 }
 
 Snake.prototype.drawSnake = function() {
 	if (this._body.length == 1) {
-		// TODO : this
+		this._grid.setSprite(this._body[0].x, this._body[0].y, SNAKE_SPRITES.hn);
 	} else {
 		// Draw head
 		var head = this._body[0];
@@ -123,4 +131,8 @@ Snake.prototype.drawSnake = function() {
 		else               sprite = SNAKE_SPRITES.tn;
 		this._grid.setSprite(tail.x, tail.y, sprite);
 	}
+}
+
+Snake.prototype.increaseLength = function() {
+	this._length += 1;
 }

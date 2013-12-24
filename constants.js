@@ -1,6 +1,11 @@
 var WIDTH = 10;
 var HEIGHT = 20;
 
+var RIGHT = 0;
+var DOWN = 1;
+var LEFT = 2;
+var UP = 3;
+
 var TILES = {
 	empty:   0,
 	red:     1,

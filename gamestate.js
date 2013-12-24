@@ -1,9 +1,14 @@
 function GameState() {
+	this._isGameOver = false;
 }
 
 GameState.prototype.init = function() {
 	this._grid = new Grid(WIDTH, HEIGHT);
-	this._snake = new Snake(this._grid, WIDTH/2, HEIGHT - 1);
+	this._snake = new Snake(
+		this._grid,
+		[{ x: WIDTH / 2, y: HEIGHT - 1 }, { x: WIDTH / 2 - 1, y: HEIGHT - 1 }],
+		RIGHT
+	);
 	this._tetrisStartDrop();
 
 	controls = [
@@ -17,7 +22,8 @@ GameState.prototype.init = function() {
 			function() { return state._activeBlock.moveRight(); }),
 		new Control(500, 50, ['tetrisDown'],
 			function() { return state._tetrisDoMove(); }),
-		new Control(500, 50, ['tetrisSlam'],
+
+		new TapControl(['tetrisSlam'], 0,
 			function() { while(state._tetrisDoMove()); return true; }),
 
 		new TapControl(['snakeUp'],    0, function() { state._snake.faceUp(); }),
@@ -33,8 +39,11 @@ GameState.prototype.init = function() {
 }
 
 GameState.prototype.update = function() {
-	for (var repeater in this._repeaters)
-		this._repeaters[repeater].update();
+	if (!this._isGameOver) {
+		for (var repeater in this._repeaters)
+			this._repeaters[repeater].update();
+	} else
+		changeState(new GameState());
 }
 
 GameState.prototype.destroy = function() {
@@ -48,9 +57,9 @@ GameState.prototype._tetrisStartDrop = function() {
 	var spriteSource = BLOCKS[type].sprite;
 	var x = Math.floor((10 - shape.size) / 2);
 	var y = 0;
-	if (shape.checkCollision(this._grid, x, y)) {
-		// TODO: Game over
-	} else
+	if (shape.checkCollision(this._grid, x, y))
+		this.gameOver();
+	else
 		this._activeBlock = new ActiveBlock(this._grid, x, y, shape, BLOCKS[type].sprite);
 }
 
@@ -84,8 +93,13 @@ GameState.prototype._clearLines = function() {
 		if (lineFull(j - 1)) {
 			deleteLine(j - 1);
 			this._snake.clearLine(j - 1);
+			this._snake.increaseLength();
 		}
 		else
 			--j;
 	}
+}
+
+GameState.prototype.gameOver = function() {
+	this._isGameOver = true;
 }
