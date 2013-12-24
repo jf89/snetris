@@ -40,6 +40,8 @@ Snake.prototype.move = function() {
 	this._body.unshift({ x: head.x, y: head.y });
 	this._grid.setBlock(head.x, head.y, new Block(true, true, TILES.empty));
 
+	state.clearLines();
+
 	this.drawSnake();
 }
 
@@ -81,6 +83,8 @@ Snake.prototype.clearLine = function(j) {
 }
 
 Snake.prototype.drawSnake = function() {
+	if (this._body.length == 0)
+		return;
 	if (this._body.length == 1) {
 		this._grid.setSprite(this._body[0].x, this._body[0].y, SNAKE_SPRITES.hn);
 	} else {
