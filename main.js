@@ -1,4 +1,7 @@
-var game = new Phaser.Game(640, 640, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(
+	640, 640, Phaser.CANVAS, 'snetris',
+	{ preload: preload, create: create, update: update }
+);
 
 var state;
 
