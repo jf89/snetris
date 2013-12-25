@@ -7,14 +7,16 @@ var LEFT = 2;
 var UP = 3;
 
 var TILES = {
-	empty:   0,
-	red:     1,
-	yellow:  2,
-	aqua:    3,
-	green:   4,
-	blue:    5,
-	white:   6,
-	magenta: 7
+	empty:           28,
+	red:             1,
+	yellow:          2,
+	aqua:            3,
+	green:           4,
+	blue:            5,
+	white:           6,
+	magenta:         7,
+	backgroundDark:  26,
+	backgroundLight: 27
 };
 
 var BLOCKS = [
@@ -81,5 +83,7 @@ var SNAKE_SPRITES = {
 	tn: 15, te: 14, ts: 13, tw: 12,
 	ne: 16, ns: 18, nw: 17,
 	se: 21, sw: 20,
-	ew: 19
+	ew: 19,
+
+	aw: 22, an: 23, ae: 24, as: 25
 };

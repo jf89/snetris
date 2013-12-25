@@ -42,6 +42,7 @@ Snake.prototype.move = function() {
 
 	state.clearLines();
 
+	state.scorer.snakeLength(this._body.length);
 	this.drawSnake();
 }
 
@@ -66,6 +67,8 @@ Snake.prototype.faceUp = function() {
 }
 
 Snake.prototype.clearLine = function(j) {
+	if (this._body.length == 0)
+		return;
 	if (j == this._body[0].y)
 		state.gameOver();
 	var i = 0;
@@ -86,7 +89,12 @@ Snake.prototype.drawSnake = function() {
 	if (this._body.length == 0)
 		return;
 	if (this._body.length == 1) {
-		this._grid.setSprite(this._body[0].x, this._body[0].y, SNAKE_SPRITES.hn);
+		var sprite;
+		if      (this._facing == DOWN)  sprite = SNAKE_SPRITES.as;
+		else if (this._facing == LEFT)  sprite = SNAKE_SPRITES.aw;
+		else if (this._facing == RIGHT) sprite = SNAKE_SPRITES.ae;
+		else                            sprite = SNAKE_SPRITES.an;
+		this._grid.setSprite(this._body[0].x, this._body[0].y, sprite);
 	} else {
 		// Draw head
 		var head = this._body[0];

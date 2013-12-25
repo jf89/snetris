@@ -3,6 +3,7 @@ function GameState() {
 }
 
 GameState.prototype.init = function() {
+	this.scorer = new Scorer();
 	this._grid = new Grid(WIDTH, HEIGHT);
 	this._snake = new Snake(
 		this._grid,
@@ -42,16 +43,19 @@ GameState.prototype.update = function() {
 	if (!this._isGameOver) {
 		for (var repeater in this._repeaters)
 			this._repeaters[repeater].update();
+		this.scorer.update();
 	} else
 		changeState(new GameState());
 }
 
 GameState.prototype.destroy = function() {
 	this._grid.destroy();
+	this.scorer.destroy();
 }
 
 GameState.prototype._tetrisStartDrop = function() {
-	this.clearLines();
+	var lines = this.clearLines();
+	this.scorer.lines(lines);
 	var type = Math.floor(Math.random() * BLOCKS.length);
 	var shape = new Shape(BLOCKS[type].shape);
 	var spriteSource = BLOCKS[type].sprite;
@@ -89,15 +93,18 @@ GameState.prototype.clearLines = function() {
 	}
 
 	var j = 20;
+	var linesCleared = 0;
 	while (j) {
 		if (lineFull(j - 1)) {
 			deleteLine(j - 1);
 			this._snake.clearLine(j - 1);
 			this._snake.increaseLength();
+			++linesCleared;
 		}
 		else
 			--j;
 	}
+	return linesCleared;
 }
 
 GameState.prototype.gameOver = function() {

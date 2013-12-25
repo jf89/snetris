@@ -1,4 +1,4 @@
-var game = new Phaser.Game(160, 320, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(640, 640, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
 
 var state;
 
@@ -7,6 +7,8 @@ function preload() {
 }
 
 function create() {
+	//game.stage.backgroundColor = '#888';
+	Phaser.Canvas.setSmoothingEnabled(game.context, false);
 	input.create();
 	state = new GameState();
 	state.init();
