@@ -40,7 +40,7 @@ Grid.prototype.createTilemap = function(width, height, name) {
 		for (var j = 0; j < height; ++j)
 			tilemap.putTile(TILES.empty, i, j);
 	return tilemap;
-}
+};
 
 Grid.prototype.destroy = function() {
 	this._tilemap.destroy();
@@ -48,20 +48,20 @@ Grid.prototype.destroy = function() {
 	//this._tileset.destroy();
 	this._backgroundLayer.destroy();
 	this._foregroundLayer.destroy();
-}
+};
 
 Grid.prototype.blockAt = function(i, j) {
 	return this._grid[i + 1][j + 1];
-}
+};
 
 Grid.prototype.setBlock = function(i, j, block) {
 	this._tilemap.putTile(block.sprite, i, j);
 	this._grid[i + 1][j + 1] = block;
-}
+};
 
 Grid.prototype.setSprite = function(i, j, sprite) {
 	if (this._grid[i + 1][j + 1].sprite != sprite) {
 		this._grid[i + 1][j + 1].sprite = sprite;
 		this._tilemap.putTile(sprite, i, j);
 	}
-}
+};

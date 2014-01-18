@@ -16,7 +16,8 @@ var TILES = {
 	white:           6,
 	magenta:         7,
 	backgroundDark:  26,
-	backgroundLight: 27
+	backgroundLight: 27,
+	apple:           30,
 };
 
 var BLOCKS = [
@@ -95,5 +96,5 @@ var TAIL_SPRITES = {
 	se: 21, sw: 20,
 	ew: 19,
 
-	aw: 22, an: 23, ae: 24, as: 25,
+	aw: 29, an: 29, ae: 29, as: 29,
 };

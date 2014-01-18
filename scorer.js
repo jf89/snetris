@@ -38,25 +38,25 @@ Scorer.prototype.lines = function(n) {
 		this._inCombo = false;
 		this._comboScore = 0;
 	}
-}
+};
 
 Scorer.prototype.bonus = function() {
 	this._bonusMultiplier *= 2;
-}
+};
 
 Scorer.prototype.snakeLength = function(n) {
 	if (n > this._longestSnake)
 		this._longestSnake = n;
-}
+};
 
 Scorer.prototype.destroy = function() {
 	for (var text in this._display)
 		this._display[text].destroy();
-}
+};
 
 Scorer.prototype.score = function() {
 	return (this._rawScore + this._comboScore) * this._bonusMultiplier;
-}
+};
 
 Scorer.prototype.update = function() {
 	this._display.rawScore.setText('Raw Score: ' + (this._rawScore + this._comboScore));
@@ -67,4 +67,4 @@ Scorer.prototype.update = function() {
 	this._display.lines.setText('Lines: ' + this._lines);
 	this._display.longestSnake.setText('Longest Snake: ' + this._longestSnake);
 	this._display.level.setText('Level: ' + this._level);
-}
+};
