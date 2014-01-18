@@ -1,5 +1,5 @@
 function Repeater(delay, action) {
-	this._delay = delay;
+	this.delay = delay;
 	this._action = action;
 	this._repeatAfter = game.time.now + delay;
 }
@@ -7,6 +7,6 @@ function Repeater(delay, action) {
 Repeater.prototype.update = function() {
 	if (game.time.now > this._repeatAfter) {
 		this._action();
-		this._repeatAfter = game.time.now + this._delay;
+		this._repeatAfter = game.time.now + this.delay;
 	}
-}
+};

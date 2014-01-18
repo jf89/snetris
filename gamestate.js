@@ -12,6 +12,8 @@ GameState.prototype.init = function() {
 	);
 	this._tetrisStartDrop();
 	this._blocks = [this._snake];
+	this._level = 1;
+	this._lines = 0;
 
 	controls = [
 		new Control(500, 50, ['tetrisUp', 'tetrisRotRight'],
@@ -38,7 +40,7 @@ GameState.prototype.init = function() {
 		tetrisMove: new Repeater(500, function() { state._tetrisDoMove(); }),
 		snakeMove:  new Repeater(400, function() { state._snake.move(); })
 	};
-}
+};
 
 GameState.prototype.update = function() {
 	if (!this._isGameOver) {
@@ -47,16 +49,15 @@ GameState.prototype.update = function() {
 		this.scorer.update();
 	} else
 		changeState(new GameState());
-}
+};
 
 GameState.prototype.destroy = function() {
 	this._grid.destroy();
 	this.scorer.destroy();
-}
+};
 
 GameState.prototype._tetrisStartDrop = function() {
-	var lines = this.clearLines();
-	this.scorer.lines(lines);
+	this.clearLines();
 	var type = Math.floor(Math.random() * BLOCKS.length);
 	var shape = new Shape(BLOCKS[type].shape);
 	var spriteSource = BLOCKS[type].sprite;
@@ -66,14 +67,14 @@ GameState.prototype._tetrisStartDrop = function() {
 		this.gameOver();
 	else
 		this._activeBlock = new ActiveBlock(this._grid, x, y, shape, BLOCKS[type].sprite);
-}
+};
 
 GameState.prototype._tetrisDoMove = function() {
 	if (this._activeBlock.fall())
 		return true;
 	this._tetrisStartDrop();
 	return false;
-}
+};
 
 GameState.prototype.clearLines = function() {
 	var grid = this._grid;
@@ -110,9 +111,20 @@ GameState.prototype.clearLines = function() {
 		else
 			--j;
 	}
-	return linesCleared;
-}
+
+	this.scorer.lines(linesCleared);
+	this._lines += linesCleared;
+	var level = Math.floor(this._lines / 10);
+	var levelUps = level - this._level;
+	for (var i = 0; i < levelUps; ++i) {
+		for (var key in this._repeaters) {
+			console.log(key);
+			this._repeaters[key].delay *= 0.8;
+		}
+	}
+	this._level = level;
+};
 
 GameState.prototype.gameOver = function() {
 	this._isGameOver = true;
-}
+};
