@@ -44,27 +44,27 @@ Snake.prototype.move = function() {
 
 	state.scorer.snakeLength(this._body.length);
 	this.drawSnake();
-}
+};
 
 Snake.prototype.faceRight = function() {
 	if (this._facing != LEFT)
 		this._nextFacing = RIGHT;
-}
+};
 
 Snake.prototype.faceDown = function() {
 	if (this._facing != UP)
 		this._nextFacing = DOWN;
-}
+};
 
 Snake.prototype.faceLeft = function() {
 	if (this._facing != RIGHT)
 		this._nextFacing = LEFT;
-}
+};
 
 Snake.prototype.faceUp = function() {
 	if (this._facing != DOWN)
 		this._nextFacing = UP;
-}
+};
 
 Snake.prototype.clearLine = function(j) {
 	if (this._body.length === 0)
@@ -83,7 +83,7 @@ Snake.prototype.clearLine = function(j) {
 	for (var i = 0; i < this._body.length; ++i)
 		if (this._body[i].y < j)
 			this._body[i].y += 1;
-}
+};
 
 Snake.prototype.drawSnake = function() {
 	if (this._body.length === 0)
@@ -143,8 +143,8 @@ Snake.prototype.drawSnake = function() {
 		else               sprite = SNAKE_SPRITES.tn;
 		this._grid.setSprite(tail.x, tail.y, sprite);
 	}
-}
+};
 
 Snake.prototype.increaseLength = function() {
 	this._length += 1;
-}
+};
