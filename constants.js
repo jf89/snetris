@@ -89,7 +89,7 @@ var SNAKE_SPRITES = {
 };
 
 var TAIL_SPRITES = {
-	hn: 13, he: 12, hs: 15, hw: 14,
+	hn: 13, he: 14, hs: 15, hw: 12,
 	tn: 15, te: 14, ts: 13, tw: 12,
 	ne: 16, ns: 18, nw: 17,
 	se: 21, sw: 20,
