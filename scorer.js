@@ -27,9 +27,9 @@ Scorer.prototype.lines = function(n) {
 		this._level += 1;
 	this._lines += n;
 	if (n) {
-		this._comboScore += n;
+		this._comboScore += n * this._level;
 		if (this._inCombo)
-			this._comboScore *= n == 4 ? 4 : 2;
+			this._comboScore *= n === 4 ? 4 : 2;
 		this._inCombo = true;
 	} else {
 		this._rawScore += this._comboScore;

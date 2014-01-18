@@ -15,9 +15,9 @@ function Snake(grid, body, facing) {
 Snake.prototype.move = function() {
 	this._facing = this._nextFacing;
 	var dx = 0, dy = 0;
-	if      (this._facing == RIGHT) dx = 1;
-	else if (this._facing == DOWN)  dy = 1;
-	else if (this._facing == LEFT)  dx = -1;
+	if      (this._facing === RIGHT) dx = 1;
+	else if (this._facing === DOWN)  dy = 1;
+	else if (this._facing === LEFT)  dx = -1;
 	else                            dy = -1;
 
 	var head = { x: this._body[0].x, y: this._body[0].y };
@@ -67,9 +67,9 @@ Snake.prototype.faceUp = function() {
 }
 
 Snake.prototype.clearLine = function(j) {
-	if (this._body.length == 0)
+	if (this._body.length === 0)
 		return;
-	if (j == this._body[0].y)
+	if (j === this._body[0].y)
 		state.gameOver();
 	var i = 0;
 	while (i < this._body.length && this._body[i].y != j) ++i;
@@ -86,13 +86,13 @@ Snake.prototype.clearLine = function(j) {
 }
 
 Snake.prototype.drawSnake = function() {
-	if (this._body.length == 0)
+	if (this._body.length === 0)
 		return;
-	if (this._body.length == 1) {
+	if (this._body.length === 1) {
 		var sprite;
-		if      (this._facing == DOWN)  sprite = SNAKE_SPRITES.as;
-		else if (this._facing == LEFT)  sprite = SNAKE_SPRITES.aw;
-		else if (this._facing == RIGHT) sprite = SNAKE_SPRITES.ae;
+		if      (this._facing === DOWN)  sprite = SNAKE_SPRITES.as;
+		else if (this._facing === LEFT)  sprite = SNAKE_SPRITES.aw;
+		else if (this._facing === RIGHT) sprite = SNAKE_SPRITES.ae;
 		else                            sprite = SNAKE_SPRITES.an;
 		this._grid.setSprite(this._body[0].x, this._body[0].y, sprite);
 	} else {
@@ -102,9 +102,9 @@ Snake.prototype.drawSnake = function() {
 		var dx = next.x - head.x;
 		var dy = next.y - head.y;
 		var sprite;
-		if      (dx ==  1) sprite = SNAKE_SPRITES.hw;
-		else if (dx == -1) sprite = SNAKE_SPRITES.he;
-		else if (dy ==  1) sprite = SNAKE_SPRITES.hn;
+		if      (dx ===  1) sprite = SNAKE_SPRITES.hw;
+		else if (dx === -1) sprite = SNAKE_SPRITES.he;
+		else if (dy ===  1) sprite = SNAKE_SPRITES.hn;
 		else               sprite = SNAKE_SPRITES.hs;
 		this._grid.setSprite(head.x, head.y, sprite);
 
@@ -117,10 +117,10 @@ Snake.prototype.drawSnake = function() {
 			var dy1 = prev.y - cur.y;
 			var dx2 = next.x - cur.x;
 			var dy2 = next.y - cur.y;
-			var n = dy1 == -1 || dy2 == -1;
-			var s = dy1 ==  1 || dy2 ==  1;
-			var e = dx1 ==  1 || dx2 ==  1;
-			var w = dx1 == -1 || dx2 == -1;
+			var n = dy1 === -1 || dy2 === -1;
+			var s = dy1 ===  1 || dy2 ===  1;
+			var e = dx1 ===  1 || dx2 ===  1;
+			var w = dx1 === -1 || dx2 === -1;
 			var sprite;
 			if      (n && e) sprite = SNAKE_SPRITES.ne;
 			else if (n && s) sprite = SNAKE_SPRITES.ns;
@@ -137,9 +137,9 @@ Snake.prototype.drawSnake = function() {
 		var dx = prev.x - tail.x;
 		var dy = prev.y - tail.y;
 		var sprite;
-		if      (dx ==  1) sprite = SNAKE_SPRITES.tw;
-		else if (dx == -1) sprite = SNAKE_SPRITES.te;
-		else if (dy ==  1) sprite = SNAKE_SPRITES.ts;
+		if      (dx ===  1) sprite = SNAKE_SPRITES.tw;
+		else if (dx === -1) sprite = SNAKE_SPRITES.te;
+		else if (dy ===  1) sprite = SNAKE_SPRITES.ts;
 		else               sprite = SNAKE_SPRITES.tn;
 		this._grid.setSprite(tail.x, tail.y, sprite);
 	}
