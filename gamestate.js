@@ -11,6 +11,7 @@ GameState.prototype.init = function() {
 		RIGHT
 	);
 	this._tetrisStartDrop();
+	this._blocks = [this._snake];
 
 	controls = [
 		new Control(500, 50, ['tetrisUp', 'tetrisRotRight'],
@@ -85,6 +86,7 @@ GameState.prototype.clearLines = function() {
 	}
 
 	function deleteLine(j) {
+		// TODO: deprecate this in favour of blocks which delete lines
 		for (var i = 0; i < 10; ++i) {
 			for (var k = j; k > 0; --k)
 				grid.setBlock(i, k, grid.blockAt(i, k - 1));
@@ -96,10 +98,14 @@ GameState.prototype.clearLines = function() {
 	var linesCleared = 0;
 	while (j) {
 		if (lineFull(j - 1)) {
+			var newBlocks = [];
 			deleteLine(j - 1);
-			this._snake.clearLine(j - 1);
-			this._snake.increaseLength();
+			for (var i = 0; i < this._blocks.length; ++i) {
+				var bs = this._blocks[i].clearLine(j - 1);
+				newBlocks.push.apply(newBlocks, bs);
+			}
 			++linesCleared;
+			this._blocks = newBlocks;
 		}
 		else
 			--j;
