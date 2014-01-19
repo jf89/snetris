@@ -24,7 +24,7 @@ Snake.prototype.move = function() {
 
 	if (this._grid.blockAt(head.x + dx, head.y + dy).canCollide) {
 		var tail = this._body[this._body.length - 1];
-		if (head.x + dx != tail.x || head.y + dy != tail.y) {
+		if (head.x + dx !== tail.x || head.y + dy !== tail.y || this._body.length < this._length) {
 			state.gameOver();
 			return;
 		}
@@ -47,22 +47,22 @@ Snake.prototype.move = function() {
 };
 
 Snake.prototype.faceRight = function() {
-	if (this._facing != LEFT)
+	if (this._facing !== LEFT)
 		this._nextFacing = RIGHT;
 };
 
 Snake.prototype.faceDown = function() {
-	if (this._facing != UP)
+	if (this._facing !== UP)
 		this._nextFacing = DOWN;
 };
 
 Snake.prototype.faceLeft = function() {
-	if (this._facing != RIGHT)
+	if (this._facing !== RIGHT)
 		this._nextFacing = LEFT;
 };
 
 Snake.prototype.faceUp = function() {
-	if (this._facing != DOWN)
+	if (this._facing !== DOWN)
 		this._nextFacing = UP;
 };
 

@@ -60,7 +60,7 @@ Grid.prototype.setBlock = function(i, j, block) {
 };
 
 Grid.prototype.setSprite = function(i, j, sprite) {
-	if (this._grid[i + 1][j + 1].sprite != sprite) {
+	if (this._grid[i + 1][j + 1].sprite !== sprite) {
 		this._grid[i + 1][j + 1].sprite = sprite;
 		this._tilemap.putTile(sprite, i, j);
 	}
