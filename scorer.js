@@ -22,21 +22,24 @@ function Scorer() {
 	};
 }
 
+Scorer.prototype.startCombo = function() {
+	this._inCombo = true;
+};
+
+Scorer.prototype.endCombo = function() {
+	this._rawScore += this._comboScore;
+	this._highestCombo = Math.max(this._highestCombo, this._comboScore);
+	this._comboScore = 0;
+	this._inCombo = false;
+};
+
 Scorer.prototype.lines = function(n) {
 	if (Math.floor(this._lines / 10) < Math.floor((this._lines + n) / 10))
 		this._level += 1;
 	this._lines += n;
 	if (n) {
 		this._comboScore += n * this._level;
-		if (this._inCombo)
-			this._comboScore *= n === 4 ? 4 : 2;
-		this._inCombo = true;
-	} else {
-		this._rawScore += this._comboScore;
-		if (this._comboScore > this._highestCombo)
-			this._highestCombo = this._comboScore;
-		this._inCombo = false;
-		this._comboScore = 0;
+		if (this._inCombo) this._comboScore *= n === 4 ? 4 : 2;
 	}
 };
 

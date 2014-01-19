@@ -57,7 +57,12 @@ GameState.prototype.destroy = function() {
 };
 
 GameState.prototype._tetrisStartDrop = function() {
-	this.clearLines();
+	var lines = this.clearLines();
+	if (lines) {
+		this.scorer.startCombo();
+	} else {
+		this.scorer.endCombo();
+	}
 	var type = Math.floor(Math.random() * BLOCKS.length);
 	var shape = new Shape(BLOCKS[type].shape);
 	var spriteSource = BLOCKS[type].sprite;
@@ -123,6 +128,7 @@ GameState.prototype.clearLines = function() {
 		}
 	}
 	this._level = level;
+	return linesCleared;
 };
 
 GameState.prototype.gameOver = function() {
