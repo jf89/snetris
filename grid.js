@@ -1,6 +1,6 @@
 function Grid(width, height) {
-	this._width = width;
-	this._height = height;
+	this.width = width;
+	this.height = height;
 	this._grid = new Array(width + 2);
 	for (var i = 0; i < width + 2; ++i) {
 		this._grid[i] = new Array(height + 2);

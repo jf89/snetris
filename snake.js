@@ -1,9 +1,10 @@
-function Snake(grid, body, facing) {
+function Snake(grid, body, facing, scorer) {
 	this._grid = grid;
 	this._facing = facing;
 	this._nextFacing = facing;
 	this._body = body;
 	this._length = this._body.length;
+	this._scorer = scorer;
 
 	for (var i = 0; i < this._body.length; ++i)
 		this._grid.setBlock(
@@ -18,11 +19,15 @@ Snake.prototype.move = function() {
 	if      (this._facing === RIGHT) dx = 1;
 	else if (this._facing === DOWN)  dy = 1;
 	else if (this._facing === LEFT)  dx = -1;
-	else                            dy = -1;
+	else                             dy = -1;
 
 	var head = { x: this._body[0].x, y: this._body[0].y };
 
-	if (this._grid.blockAt(head.x + dx, head.y + dy).canCollide) {
+	var nextBlock = this._grid.blockAt(head.x + dx, head.y + dy);
+	if (nextBlock.edible) {
+		nextBlock.eat();
+		this._scorer.bonus();
+	} else if (nextBlock.canCollide) {
 		var tail = this._body[this._body.length - 1];
 		if (head.x + dx !== tail.x || head.y + dy !== tail.y || this._body.length < this._length) {
 			state.gameOver();

@@ -8,7 +8,8 @@ GameState.prototype.init = function() {
 	this._snake = new Snake(
 		this._grid,
 		[{ x: WIDTH / 2, y: HEIGHT - 1 }, { x: WIDTH / 2 - 1, y: HEIGHT - 1 }],
-		RIGHT
+		RIGHT,
+		this.scorer
 	);
 	this._tetrisStartDrop();
 	this._blocks = [this._snake];
@@ -123,9 +124,9 @@ GameState.prototype.clearLines = function() {
 	var levelUps = level - this._level;
 	for (var i = 0; i < levelUps; ++i) {
 		for (var key in this._repeaters) {
-			console.log(key);
 			this._repeaters[key].delay *= 0.8;
 		}
+		makeApple(grid);
 	}
 	this._level = level;
 	return linesCleared;
