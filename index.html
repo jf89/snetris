@@ -7,10 +7,37 @@
 			#snetris * {
 				margin: auto;
 			}
+			#controls-table {
+				margin: auto;
+			}
+			.col-heading {
+				text-align: center;
+			}
 		</style>
 	</head>
 	<body>
 		<div id="snetris"></div>
+		<table id="controls-table">
+			<tr><td colspan=4 class="col-heading">Controls</td></tr>
+			<tr><td colspan=2 class="col-heading">Tetris</td>
+			    <td colspan=2 class="col-heading">Snake</td></tr>
+			<tr><td>W</td><td>Rotate Counter Clockwise</td></tr>
+			<tr><td>R</td><td>Rotate Clockwise</td></tr>
+			<tr><td>E</td><td>Rotate</td><td>I</td><td>Move Up</td></tr>
+			<tr><td>S</td><td>Move Left</td><td>J</td><td>Move Left</td></tr>
+			<tr><td>D</td><td>Move Down</td><td>K</td><td>Move Down</td></tr>
+			<tr><td>F</td><td>Move Right</td><td>L</td><td>Move Right</td></tr>
+			<tr><td>SPACE</td><td>Drop Piece</td></tr>
+		</table>
+		<p>
+			When you consume a red bonus block, the controls switch
+			hands. The pattern of the controls ought to be obvious
+			(direction keys on the home row). If the snake becomes
+			part of a full row, by the rules of tetris the parts of
+			the snake in the row will be destroyed. If this includes
+			the snakes head, you will die. Apologies for the lack of
+			animations to make this clear.
+		</p>
 		<script src="phaser.js"></script>
 		<script src="constants.js"></script>
 		<script src="utils.js"></script>
